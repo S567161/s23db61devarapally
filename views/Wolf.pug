@@ -1,0 +1,16 @@
+extends layout
+block content
+    div(class="container-fluid")
+        h1= title
+    - let results=[{Wolf_color:"blue",Wolf_breed:"Arctic Wolf",Wolf_price:25000},{Wolf_color:"black",Wolf_breed:"Eastern Wolf",Wolf_price:23500},{Wolf_color:"red",Wolf_breed:"Gray Wolf",Wolf_price:4500}]
+        div(class="row")
+            each form,item in results
+                div(class = "col-sm-2 bg-danger" onclick=`buy(${item})`) #{form.Wolf_color}              
+                div(class = "col-sm-2 bg-danger" onclick=`buy(${item})`) #{form.Wolf_breed}                
+                div(class = "col-sm-2 bg-danger" onclick=`buy(${item})`) #{form.Wolf_price}
+                hr
+    script.
+        function buy(itemNo) 
+        {
+            alert(`You purchased Item ${itemNo+1}`) 
+        }

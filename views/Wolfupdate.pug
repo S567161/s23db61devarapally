@@ -1,0 +1,47 @@
+extends layout
+
+block content
+  h1= title
+
+  if (toShow == null)
+    h2 No instance to update
+  else
+    - let Wolfid = toShow._id
+    - let Wolf_color = toShow.Wolf_color
+    - let Wolf_breed = toShow.Wolf_breed
+    - let Wolf_price = toShow.Wolf_price
+
+    div.row(class='mb-2')
+      div.mr-1 ID is
+      div #{Wolfid}
+
+    - let actionid = "/resource/Wolf/" + Wolfid
+    form(id='WolfForm', action= actionid, method="PUT")
+      div.form-group
+        label.WolfAttr(for='Wolf_color') Wolf_color
+        input#Wolf_color(type='text', name='Wolf_color', value= Wolf_color )
+      div.form-group
+        label.WolfAttr(for='Wolf_breed') Wolf_breed
+        input#Wolf_breed(type='text', name='Wolf_breed', value= Wolf_breed )
+      div.form-group
+        label.WolfAttr(for='Wolf_price') Wolf_price
+        input#Wolf_price(type='number', name='Wolf_price', value= Wolf_price )
+      input(type="submit")
+
+    script.
+      document.forms['WolfForm'].addEventListener('submit', (event) => {
+        event.preventDefault();
+        // TODO do something here to show the user that the form is being submitted
+        fetch(event.target.action, {
+          method: 'PUT',
+          body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+        }).then((resp) => {
+          return resp.json(); // or resp.text() or whatever the server sends
+        }).then((body) => {
+          alert("Update succeeded");
+          // TODO handle body
+        }).catch((error) => {
+          // TODO handle error
+          alert("Update failed " + error );
+        });
+      });

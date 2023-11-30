@@ -1,16 +1,25 @@
 extends layout
+
 block content
-    div(class="container-fluid")
-        h1= title
-    - let results=[{Wolf_color:"blue",Wolf_breed:"Arctic Wolf",Wolf_price:25000},{Wolf_color:"black",Wolf_breed:"Eastern Wolf",Wolf_price:23500},{Wolf_color:"red",Wolf_breed:"Gray Wolf",Wolf_price:4500}]
-        div(class="row")
-            each form,item in results
-                div(class = "col-sm-2 bg-danger" onclick=`buy(${item})`) #{form.Wolf_color}              
-                div(class = "col-sm-2 bg-danger" onclick=`buy(${item})`) #{form.Wolf_breed}                
-                div(class = "col-sm-2 bg-danger" onclick=`buy(${item})`) #{form.Wolf_price}
-                hr
-    script.
-        function buy(itemNo) 
-        {
-            alert(`You purchased Item ${itemNo+1}`) 
-        }
+  h1= title
+
+  - let destination = `dispatch("/Wolf/create")`
+  button.btn(class="btn-primary ml-1", onclick=destination) Create
+
+  - let results1 = results
+
+  div(class="container-fluid")
+    div(class="row m-1")
+      each item in results
+        - let destination1 = `dispatch("/Wolf/update?id=${item._id}")`
+        - let destination2 = `dispatch("/Wolf/detail?id=${item._id}")`
+        - let destination3 = `dispatch("/Wolf/delete?id=${item._id}")`
+        div(class="row-sm-2", class="m-1") #{item.Wolf_color}, #{item.Wolf_breed}, #{item.Wolf_price}
+          button.btn(class="btn-primary ml-1", onclick=destination1) Update
+          button.btn(class="btn-primary ml-1", onclick=destination2) Detail
+          button.btn(class="btn-primary ml-1", onclick=destination3) Delete
+
+  script.
+    function dispatch(path){
+      window.location.href = path;
+    }

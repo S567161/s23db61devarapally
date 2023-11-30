@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  h1= title
+  form(id='WolfForm', action="/resource/Wolf", method="POST")
+    div.form-group
+      label.WolfAttr(for='Wolf_color') Wolf_color
+      input#Wolf_color(type='text', name='Wolf_color',class='WolfAttrInput')
+    div.form-group
+      label.WolfAttr(for='Wolf_breed') Wolf_breed
+      input#Wolf_breed(type='text', name='Wolf_breed',class='WolfAttrInput')
+    div.form-group
+      label.WolfAttr(for='Wolf_price') Wolf_price
+      input#Wolf_price(type='number', name='Wolf_price',class='WolfAttrInput')
+    input(type="submit",class="WolfAttrSubmit")
+  script.
+    document.forms['WolfForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO do something here to show the user that the form is being submitted
+      fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Save succeeded");
+        // TODO handle the body
+      }).catch((error) => {
+        // TODO handle the error
+        alert("Save failed " + error);
+      });
+    });
